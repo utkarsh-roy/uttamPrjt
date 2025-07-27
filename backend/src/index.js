@@ -14,10 +14,12 @@ const limiter = rateLimit({
 });
 
 // Middleware
+app.use(cors()); // Allow all origins
+// OR if you want to restrict it:
 app.use(cors({
-  origin: process.env.CORS_ORIGIN,
-  methods: ['POST'],
-  credentials: true,
+  origin: '*', // or your frontend deployed URL
+  methods: ['GET', 'POST'],
+  credentials: true
 }));
 app.use(express.json());
 app.use(limiter);
