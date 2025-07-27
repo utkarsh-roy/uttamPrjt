@@ -6,7 +6,6 @@ import scheduleRoutes from './routes/scheduleRoutes.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
-const cors = require('cors');
 
 // Rate limiting
 const limiter = rateLimit({
@@ -16,7 +15,7 @@ const limiter = rateLimit({
 
 // Middleware
 app.use(cors({
-  origin: process.env.CORS_ORIGIN, // or your frontend deployed URL
+  origin: process.env.CORS_ORIGIN, // Use .env value like http://localhost:8080
   methods: ['GET', 'POST'],
   credentials: true
 }));
@@ -26,9 +25,10 @@ app.use(limiter);
 // Routes
 app.use('/api', scheduleRoutes);
 
-app.get((req, res) => {
-  res.json({ "success": true })
-})
+// Basic route
+app.get('/', (req, res) => {
+  res.json({ success: true });
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -39,9 +39,10 @@ app.use((err, req, res, next) => {
   });
 });
 
+// Start server
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-  console.log('Environment variables loaded:', {
+  console.log(`✅ Server is running on port ${port}`);
+  console.log('🌱 Environment variables loaded:', {
     PORT: process.env.PORT,
     CORS_ORIGIN: process.env.CORS_ORIGIN,
     GEMINI_API_KEY: process.env.GEMINI_API_KEY ? 'Set' : 'Not set'
@@ -49,4 +50,5 @@ app.listen(port, () => {
 });
 
 console.log('🚀 App boot completed');
+
 
