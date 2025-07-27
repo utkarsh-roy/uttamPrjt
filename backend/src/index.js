@@ -6,6 +6,7 @@ import scheduleRoutes from './routes/scheduleRoutes.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
+const cors = require('cors');
 
 // Rate limiting
 const limiter = rateLimit({
@@ -14,10 +15,8 @@ const limiter = rateLimit({
 });
 
 // Middleware
-app.use(cors()); // Allow all origins
-// OR if you want to restrict it:
 app.use(cors({
-  origin: '*', // or your frontend deployed URL
+  origin: process.env.CORS_ORIGIN, // or your frontend deployed URL
   methods: ['GET', 'POST'],
   credentials: true
 }));
